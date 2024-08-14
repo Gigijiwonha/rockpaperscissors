@@ -20,6 +20,8 @@ const choice = {
 function App() {
   const [userSelect, setUserSelect] = useState(null);
   const [computerSelect, setComputerSelect] = useState(null);
+  const [userResult, setUserResult] = useState("");
+  const [computerResult, setComputerResult] = useState("");
 
   const play = (userChoice) => {
     // console.log("play>>>>", userChoice);
@@ -30,8 +32,35 @@ function App() {
 
     const computerChoice = randomChoice();
     console.log("computerChoice>>>", computerChoice);
-
     setComputerSelect(computerChoice);
+
+    const finalJudgement = judgement(choice[userChoice], computerChoice);
+    console.log("finalresult>>>", finalJudgement);
+    setUserResult(finalJudgement[0]);
+    setComputerResult(finalJudgement[1]);
+  };
+
+  const judgement = (user, computer) => {
+    let finalResult = [];
+    if (user.name == computer.name) {
+      finalResult[0] = "TIE";
+      finalResult[1] = "TIE";
+      return finalResult;
+    } else {
+      if (user.name == "rock") {
+        finalResult[0] = computer.name === "scissors" ? "WIN" : "LOSE";
+        finalResult[1] = computer.name === "scissors" ? "LOSE" : "WIN";
+        return finalResult;
+      } else if (user.name == "scissors") {
+        finalResult[0] = computer.name === "paper" ? "WIN" : "LOSE";
+        finalResult[1] = computer.name === "paper" ? "LOSE" : "WIN";
+        return finalResult;
+      } else if (user.name == "paper") {
+        finalResult[0] = computer.name === "rock" ? "WIN" : "LOSE";
+        finalResult[1] = computer.name === "rock" ? "LOSE" : "WIN";
+        return finalResult;
+      }
+    }
   };
 
   const randomChoice = () => {
@@ -46,15 +75,26 @@ function App() {
   };
 
   return (
-    <div>
-      <div className="main">
-        <Box name="User" item={userSelect} />
-        <Box name="Computer" item={computerSelect} />
-      </div>
-      <div className="main">
-        <button onClick={() => play("rock")}>Rock</button>
-        <button onClick={() => play("paper")}>Paper</button>
-        <button onClick={() => play("scissors")}>Scissors</button>
+    <div className="background">
+      <div className="body">
+        <div className="title">
+          <h1>Rock Scissors Paper</h1>
+        </div>
+        <div className="main">
+          <Box name="User" item={userSelect} result={userResult} />
+          <Box name="Computer" item={computerSelect} result={computerResult} />
+        </div>
+        <div className="main">
+          <button className="button-rock" onClick={() => play("rock")}>
+            Rock
+          </button>
+          <button className="button-paper" onClick={() => play("paper")}>
+            Paper
+          </button>
+          <button className="button-scissors" onClick={() => play("scissors")}>
+            Scissors
+          </button>
+        </div>
       </div>
     </div>
   );
