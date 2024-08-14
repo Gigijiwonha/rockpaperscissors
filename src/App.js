@@ -19,6 +19,7 @@ const choice = {
 
 function App() {
   const [userSelect, setUserSelect] = useState(null);
+  const [computerSelect, setComputerSelect] = useState(null);
 
   const play = (userChoice) => {
     // console.log("play>>>>", userChoice);
@@ -26,13 +27,29 @@ function App() {
     //   console.log("it's rock!")
     // }
     setUserSelect(choice[userChoice]);
+
+    const computerChoice = randomChoice();
+    console.log("computerChoice>>>", computerChoice);
+
+    setComputerSelect(computerChoice);
+  };
+
+  const randomChoice = () => {
+    const itemArray = Object.keys(choice);
+    console.log("item keys>>>", itemArray);
+
+    let randomNum = Math.floor(Math.random() * itemArray.length);
+    console.log("random Num>>>", randomNum);
+
+    let finalItem = itemArray[randomNum];
+    return choice[finalItem];
   };
 
   return (
     <div>
       <div className="main">
         <Box name="User" item={userSelect} />
-        {/* <Box name="Computer" /> */}
+        <Box name="Computer" item={computerSelect} />
       </div>
       <div className="main">
         <button onClick={() => play("rock")}>Rock</button>
